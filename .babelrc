@@ -1,0 +1,9 @@
+
+{
+  "plugins":["lodash"],
+  "presets": [["env",  {
+      "targets": {
+        "node": "current"
+      }
+    }],"react","stage-2","stage-3"]
+}

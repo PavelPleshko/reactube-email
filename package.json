@@ -1,0 +1,27 @@
+{
+  "name": "email-service",
+  "version": "1.0.0",
+  "description": "email service for reactube",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "development": "webpack --mode=development --config webpack.config.server.js && node ./dist/index.generated.js"
+  },
+  "keywords": [
+    "email"
+  ],
+  "author": "Pavel Pleshko",
+  "license": "ISC",
+  "dependencies": {
+    "seneca": "^3.7.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "babel-loader": "^8.0.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "webpack": "^4.21.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
