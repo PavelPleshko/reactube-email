@@ -1,13 +1,39 @@
-const plugin = function(opts){
+import config from '../config/config';
+import confirmEmailTemplate from '../templates/confirm';
+
+const plugin = function({mailClient}){
 	const seneca = this;
 	const pluginName= 'confirmUserEmail';
+
 	seneca.add({area:'email',action:'send',type:'confirm_user'},function(args,done){
-		console.log(args,'sending email whooohoo');
-		done(null,{from:'a',to:'b'});
+		const opts = createOptions({...args,from:config.email.clientEmail});
+		mailClient.sendMail(opts,function(res,err){
+			console.log(res,err);
+			done(null,{message:`Email has been sent to ${args.to}`});
+		})
+		
 	})
 
 
 	return pluginName;
 }
 
-module.exports = plugin;
+function createOptions({to,name,from}){
+	const mailOpts = {
+	  to,
+	  subject:'Email confirmation',
+	  from,
+	  text:createMsg(name),
+	  html:confirmEmailTemplate({name})
+	}
+	return mailOpts;
+}
+
+function createMsg(name){
+	return `Hello ${name}, I hope you are having a good day.
+			You have registered on a website https://reactube.com
+			Please paste the following link in the address bar to confirm email.
+			`
+}
+
+export default plugin;

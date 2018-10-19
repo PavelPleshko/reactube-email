@@ -1,5 +1,18 @@
 const seneca = require('seneca')();
-const confirmUserEmail = require('./plugins/confirmUserEmail');
+import config from './config/config';
+import confirmUserEmail from './plugins/confirmUserEmail';
+import createClient from './config/mail-client';
 
-seneca.use(confirmUserEmail);
-seneca.act({area:'email',action:'send',type:'confirm_user'});
+const appConfig = config.app;
+
+//plugins
+const mailClient = createClient();
+seneca.use(confirmUserEmail,{mailClient});
+
+
+
+
+seneca.listen({
+	host:appConfig.host,
+	port:appConfig.port
+});
