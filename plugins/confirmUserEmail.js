@@ -18,21 +18,22 @@ const plugin = function({mailClient}){
 	return pluginName;
 }
 
-function createOptions({to,name,from}){
+function createOptions({to,name,from,link}){
 	const mailOpts = {
 	  to,
 	  subject:'Email confirmation',
 	  from,
-	  text:createMsg(name),
-	  html:confirmEmailTemplate({name})
+	  text:createMsg(name,link),
+	  html:confirmEmailTemplate({name,link})
 	}
 	return mailOpts;
 }
 
-function createMsg(name){
+function createMsg(name,link){
 	return `Hello ${name}, I hope you are having a good day.
 			You have registered on a website https://reactube.com
 			Please paste the following link in the address bar to confirm email.
+			${link}
 			`
 }
 

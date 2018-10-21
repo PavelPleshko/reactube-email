@@ -1,4 +1,9 @@
-const template = ({name}) => {
+import fs from 'fs';
+import {join} from 'path';
+
+const logo = fs.readFileSync(join(__dirname,'..','assets','logo.png')).toString('base64');
+
+const template = ({name,link}) => {
 	return `
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -56,7 +61,6 @@ const template = ({name}) => {
                         </table>
                         <table class="es-content" cellspacing="0" cellpadding="0" align="center">
                             <tbody>
-                                <tr> </tr>
                                 <tr>
                                     <td class="esd-stripe" esd-custom-block-id="6021" align="center">
                                         <table class="es-header-body" style="background-color: rgb(230, 235, 239);" width="600" cellspacing="0" cellpadding="0" bgcolor="#e6ebef" align="center">
@@ -70,8 +74,8 @@ const template = ({name}) => {
                                                                         <table width="100%" cellspacing="0" cellpadding="0">
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td class="esd-block-image" align="center">
-                                                                                       Please confirm your email address
+                                                                            		<td class="esd-block-image" align="center">
+                                                                                        <a href="#" target="_blank"><img src="${logo}" alt="Reactube logo" title="Reactube logo" height="134" width="134"></a>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -113,6 +117,9 @@ const template = ({name}) => {
                                                                                         You have registered on a website <a href="https://reactube.com">Reactube</a>
                                                                                    
 																						Please paste the following link in the address bar to confirm email.</p>
+																						<p>
+																							<a href="${link}" target="_blank">Click and confirm email</a>
+																						</p>
                                                                                     </td>
                                                                                 </tr>
                                                                           
