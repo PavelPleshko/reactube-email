@@ -1,6 +1,6 @@
 import config from '../config/config';
 import confirmEmailTemplate from '../templates/confirm';
-import EmailModel from '../app/models/email.model';
+import Email from '../app/models/email.model';
 
 const plugin = function({mailClient}){
 	const seneca = this;
@@ -10,13 +10,12 @@ const plugin = function({mailClient}){
 		const opts = createOptions({...args,from:config.email.clientEmail});
 		try{
 			const result = await sendEmail(mailClient,opts);
-			done(null,{message:`Email has been sent to ${args.to}`});
+			const email = new Email({...args,...opts});
+			await email.save();
+			done(null,{message:`Email has been sent to ${args.to}`,emailId:email._id});
 		}catch(err){
 			done(err);
-		}		
-				// try{
-				// 	const email = new Email(args);
-				// 	await email.save();		
+		}			
 	})
 	return pluginName;
 }

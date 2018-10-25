@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const EMAIL_TYPES = ['confirm_email'];
+const EMAIL_TYPES = ['confirm_user'];
 
 const EmailSchema = new mongoose.Schema({
   from: {
