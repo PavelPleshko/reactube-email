@@ -9,6 +9,9 @@ const config = {
 	app:{
 		host:process.env.HOST,
 		port:process.env.PORT
+	},
+	database:{
+		uri:process.env.DATABASE_URI
 	}	
 }
 

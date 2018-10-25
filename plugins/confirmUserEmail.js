@@ -1,21 +1,36 @@
 import config from '../config/config';
 import confirmEmailTemplate from '../templates/confirm';
+import EmailModel from '../app/models/email.model';
 
 const plugin = function({mailClient}){
 	const seneca = this;
 	const pluginName= 'confirmUserEmail';
 
-	seneca.add({area:'email',action:'send',type:'confirm_user'},function(args,done){
+	seneca.add({area:'email',action:'send',type:'confirm_user'},async function(args,done){
 		const opts = createOptions({...args,from:config.email.clientEmail});
-		mailClient.sendMail(opts,function(res,err){
-			console.log(res,err);
+		try{
+			const result = await sendEmail(mailClient,opts);
 			done(null,{message:`Email has been sent to ${args.to}`});
-		})
-		
+		}catch(err){
+			done(err);
+		}		
+				// try{
+				// 	const email = new Email(args);
+				// 	await email.save();		
 	})
-
-
 	return pluginName;
+}
+
+export function sendEmail(client,opts){
+	return new Promise((resolve,reject)=>{
+		client.sendMail(opts,(err,res)=>{
+			if(err){
+				 reject(err);
+			}else{
+				 resolve(res);
+			}			
+		})
+	})
 }
 
 function createOptions({to,name,from,link}){
