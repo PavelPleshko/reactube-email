@@ -39,7 +39,8 @@ describe('confirmUserEmail',function(){
 	 after((done)=>{
 	    mockery.deregisterAll();
 	    mockery.disable();
-	    disconnectDb(done);
+	    disconnectDb();
+	    done();
  	 });
 
 	it('should call save an email entry without error',(done)=>{
