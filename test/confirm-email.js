@@ -7,6 +7,11 @@ import mockery from 'mockery';
 import sinon from 'sinon';
 import {connectToDb,disconnect as disconnectDb} from '../config/mongo';
 
+
+const CONFIRM_EMAIL_CMD = {area:'email',action:'send',
+						   type:'confirm_user',
+						   to:'ppleshko@list.ru',name:'Pablo'};
+
 describe('confirmUserEmail',function(){
 	this.timeout(10000);
 	let seneca,mailClient,confirmEmailPluginMock;
@@ -40,10 +45,9 @@ describe('confirmUserEmail',function(){
 	it('should call save an email entry without error',(done)=>{
 		seneca = testSeneca(done);
 		seneca.use(confirmEmailPluginMock,{mailClient});
-		seneca.act({area:'email',action:'send',type:'confirm_user',
-			to:'ppleshko@list.ru',name:'Pablo'},async function(err){
+		seneca.act(CONFIRM_EMAIL_CMD,async function(err){
 			expect(err).to.equal(null);		
-			const found = await Email.findOne({to:'ppleshko@list.ru'});
+			const found = await Email.findOne({to:CONFIRM_EMAIL_CMD.to});
 			expect(found).to.be.an('object');
 			expect(found).to.have.property('_id');
 			done();
@@ -54,12 +58,11 @@ describe('confirmUserEmail',function(){
 		it('it should send an email to specified user without error',(done)=>{
 		seneca = testSeneca(done);
 		seneca.use(confirmEmailPlugin,{mailClient});
-		seneca.act({area:'email',action:'send',type:'confirm_user',
-			to:'ppleshko@list.ru',name:'Pablo'},function(err,result){
+		seneca.act(CONFIRM_EMAIL_CMD,function(err,result){
 			const emails = nodemailerMock.mock.sentMail();
 			expect(err).to.equal(null);
 			expect(emails.length).to.equal(1);
-			expect(emails[0].to).to.equal('ppleshko@list.ru');
+			expect(emails[0].to).to.equal(CONFIRM_EMAIL_CMD.to);
 			done();
 		});
 
