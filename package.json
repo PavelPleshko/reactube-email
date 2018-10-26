@@ -4,8 +4,19 @@
   "description": "email service for reactube",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require env.js --require @babel/register ./test/*",
+    "test": "nyc mocha --require env.js ./test/*",
     "development": "webpack --mode=development --config webpack.config.server.js && node -r dotenv/config ./dist/index.generated.js"
+  },
+   "nyc": {
+    "require": [
+      "@babel/register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "keywords": [
     "email"
@@ -35,13 +46,16 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.4",
+    "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
     "dotenv": "^6.1.0",
     "file-loader": "^2.0.0",
+    "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "mockery": "^2.1.0",
     "mongoose-mock": "^0.4.0",
     "nodemailer-mock": "^1.3.14",
+    "nyc": "^13.1.0",
     "should": "^13.2.3",
     "sinon": "^7.1.0",
     "webpack": "^4.21.0",
