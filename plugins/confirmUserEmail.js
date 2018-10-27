@@ -20,7 +20,7 @@ const plugin = function({mailClient}){
 	return pluginName;
 }
 
-export function sendEmail(client,opts){
+function sendEmail(client,opts){
 	return new Promise((resolve,reject)=>{
 		client.sendMail(opts,(err,res)=>{
 			if(err){
